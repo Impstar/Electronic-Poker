@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\admin\desktop\poker\poker\main.cpp(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Poker.vcxproj -> C:\Users\admin\Desktop\Poker\Debug\Poker.exe
+  Poker.vcxproj -> C:\Users\admin\Desktop\Poker\Debug\Poker.pdb (Partial PDB)

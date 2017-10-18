@@ -116,7 +116,7 @@ void printList(array_list *arr)
 {
 	for (int i = 0; i < arr->count; i++)
 	{
-		cout << arr[i].array->value << " of " << arr[i].array->suite << endl;
+		cout << arr->array[i].value << " of " << arr->array[i].suite << endl;
 	}
 }
 
@@ -195,6 +195,14 @@ void randomlyAllocate(array_list *arr, linkedList *linList)
 	}
 }
 
+void moveToLinkedList(array_list *arr, linkedList *linList)
+{
+	for (int i = 0; i < arr->count; i++)
+	{
+		add_last(linList, arr->array[i]);
+	}
+}
+
 void insertionSort(array_list *arr)
 {
 	int key, j;
@@ -204,7 +212,7 @@ void insertionSort(array_list *arr)
 		j = i - 1;
 		while (j >= 0 && arr->array[j].value > key)
 		{
-			arr[j + 1] = arr[j];
+			arr->array[j + 1].value = arr->array[j].value;
 			j = j - 1;
 		}
 		arr->array[j + 1].value = key;
@@ -213,43 +221,18 @@ void insertionSort(array_list *arr)
 
 void viewDeck(linkedList *linList)
 {
-	//srand((unsigned)time(NULL));
-	//int randIndex;
+
 	//node *temp = linList->headptr;
 	//array_list *list = create_array_list();
 	//for (int i = 0; i < linList->count; i++)
 	//{
-	//	randIndex = rand() % linList->count;
-	//	if (list[randIndex].array != nullptr)
-	//	{
-	//		temp->data = *list[randIndex].array;
-	//		temp = temp->next;
-	//	}
-	//	else
-	//	{
-	//		while (list[randIndex].array == nullptr && randIndex < linList->count)
-	//		{
-	//			randIndex++;
-	//		}
-	//		if (randIndex >= linList->count)
-	//			i--;
-	//		else
-	//		{
-	//			temp->data = *list[randIndex].array;
-	//			temp = temp->next;
-	//		}
-	//	}
-	node *temp = linList->headptr;
-	cout << linList->headptr->next->data.value << " of " << linList->headptr->next->data.suite;
-	array_list *list = create_array_list();
-	for (int i = 0; i < linList->count; i++)
-	{
-		temp->data = *list[i].array;
-		temp = temp->next;
-		list->count++;
-	}
-	insertionSort(list);
-	printList(list);
+	//	list->array[i] = temp->data;
+	//	temp = temp->next;
+	//	list->count++;
+	//}
+	//insertionSort(list);
+	//printList(list);
+	printItems(linList);
 }
 
 

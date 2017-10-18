@@ -66,6 +66,10 @@ void add_first(linkedList *list, card info)
 	temp->data = info;
 	temp->next = list->headptr;
 	list->headptr = temp;
+	if (list->headptr->next == nullptr)
+	{
+		list->tailptr = list->headptr;
+	}
 }
 
 void add_last(linkedList *list, card info)
@@ -73,12 +77,20 @@ void add_last(linkedList *list, card info)
 	if (list->headptr == nullptr)
 	{
 		add_first(list, info);
+		return;
 	}
+	node *temp = list->headptr;
+	while (temp->next != nullptr)
+		temp = temp->next;
 
-	node *temp = new node;
-	temp->data = info;
-	temp->prev = list->tailptr;
-	list->tailptr = temp;
+	node *temp2 = new node;
+	temp2->data = info;
+	temp->next = temp2;
+	temp2->next = nullptr;
+	//node *temp = new node;
+	//temp->data = info;
+	//temp->prev = list->tailptr;
+	//list->tailptr = temp;
 }
 
 
@@ -111,6 +123,7 @@ void printItems(linkedList *list)
 	while (temp != nullptr)
 	{
 		cout << temp->data.value << " of " << temp->data.suite << endl;
+		temp = temp->next;
 	}
 }
 
@@ -168,13 +181,15 @@ void remove_item(array_list *list, int index)
 
 void randomlyAllocate(array_list *arr, linkedList *linList)
 {
-	if (arr->count == 0)
-		return;
 	srand((unsigned)time(NULL));
-	int randIndex = rand() % arr->count;
-	add_last(linList, arr->array[randIndex]);
-	remove_item(arr, randIndex);
-	arr->count--;
-	randomlyAllocate(arr, linList);
+	int randIndex;
+	while (arr->count > 0)
+	{
+		randIndex = rand() % arr->count;
+		add_last(linList, arr->array[randIndex]);
+		printItems(linList);
+		remove_item(arr, randIndex);
+		arr->count--;
+	}
 }
 

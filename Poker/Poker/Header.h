@@ -42,6 +42,7 @@ struct linkedList
 {
 	node *headptr;
 	node *tailptr;
+	int count = 0;
 };
 
 linkedList *createLinkedList()
@@ -66,6 +67,7 @@ void add_first(linkedList *list, card info)
 	temp->data = info;
 	temp->next = list->headptr;
 	list->headptr = temp;
+	list->count++;
 	if (list->headptr->next == nullptr)
 	{
 		list->tailptr = list->headptr;
@@ -79,6 +81,7 @@ void add_last(linkedList *list, card info)
 		add_first(list, info);
 		return;
 	}
+	list->count++;
 	node *temp = list->headptr;
 	while (temp->next != nullptr)
 		temp = temp->next;
@@ -187,9 +190,72 @@ void randomlyAllocate(array_list *arr, linkedList *linList)
 	{
 		randIndex = rand() % arr->count;
 		add_last(linList, arr->array[randIndex]);
-		printItems(linList);
 		remove_item(arr, randIndex);
 		arr->count--;
 	}
 }
 
+void insertionSort(array_list *arr)
+{
+	int key, j;
+	for (int i = 1; i < arr->count; i++)
+	{
+		key = arr->array[i].value;
+		j = i - 1;
+		while (j >= 0 && arr->array[j].value > key)
+		{
+			arr[j + 1] = arr[j];
+			j = j - 1;
+		}
+		arr->array[j + 1].value = key;
+	}
+}
+
+void viewDeck(linkedList *linList)
+{
+	//srand((unsigned)time(NULL));
+	//int randIndex;
+	//node *temp = linList->headptr;
+	//array_list *list = create_array_list();
+	//for (int i = 0; i < linList->count; i++)
+	//{
+	//	randIndex = rand() % linList->count;
+	//	if (list[randIndex].array != nullptr)
+	//	{
+	//		temp->data = *list[randIndex].array;
+	//		temp = temp->next;
+	//	}
+	//	else
+	//	{
+	//		while (list[randIndex].array == nullptr && randIndex < linList->count)
+	//		{
+	//			randIndex++;
+	//		}
+	//		if (randIndex >= linList->count)
+	//			i--;
+	//		else
+	//		{
+	//			temp->data = *list[randIndex].array;
+	//			temp = temp->next;
+	//		}
+	//	}
+	node *temp = linList->headptr;
+	cout << linList->headptr->next->data.value << " of " << linList->headptr->next->data.suite;
+	array_list *list = create_array_list();
+	for (int i = 0; i < linList->count; i++)
+	{
+		temp->data = *list[i].array;
+		temp = temp->next;
+		list->count++;
+	}
+	insertionSort(list);
+	printList(list);
+}
+
+
+void playGame(linkedList *linList)
+{
+	int currentCash = 10;
+	cout << "\nYou currently have $" << currentCash << endl;
+
+}

@@ -11,9 +11,12 @@ int main()
 	fillArrayList(list);
 	linkedList *linkList = createLinkedList();
 	randomlyAllocate(list, linkList);
-	printList(list);
 	cout << endl << endl;
-	printItems(linkList);
+	viewDeck(linkList);
+	playGame(linkList);
+	//printList(list);
+	//cout << endl << endl;
+	//printItems(linkList);
 
 
 

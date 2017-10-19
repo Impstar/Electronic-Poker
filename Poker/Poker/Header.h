@@ -97,111 +97,129 @@ void add_last(linkedList *list, card info)
 }
 
 
-void printEntry(card *arr)
+void printEntry(card arr)
 {
-	if (arr->value == 11)
+	if (arr.value == 11)
 		cout << "Jack";
-	else if (arr->value == 12)
+	else if (arr.value == 12)
 		cout << "Queen";
-	else if (arr->value == 13)
+	else if (arr.value == 13)
 		cout << "King";
-	else if (arr->value == 14)
+	else if (arr.value == 14)
 		cout << "Ace";
 	else
-		cout << arr->value;
-	cout << " of " << arr->suite;
+		cout << arr.value;
+	cout << " of " << arr.suite << endl;
 }
 
-void printList(array_list *arr)
-{
-	for (int i = 0; i < arr->count; i++)
-	{
-		cout << arr->array[i].value << " of " << arr->array[i].suite << endl;
-	}
-}
+//void printList(array_list *arr)
+//{
+//	for (int i = 0; i < arr->count; i++)
+//	{
+//		cout << arr[i].array->value << " of " << arr[i].array->suite << endl;
+//	}
+//}
 
 void printItems(linkedList *list)
 {
 	node *temp = list->headptr;
 	while (temp != nullptr)
 	{
-		cout << temp->data.value << " of " << temp->data.suite << endl;
+		printEntry(temp->data);
+		//cout << temp->data.value << " of " << temp->data.suite << endl;
 		temp = temp->next;
 	}
 }
 
-void fillArrayList(array_list *arr) //fills the array list 
+//void fillArrayList(array_list *arr) //fills the array list 
+//{
+//	int j = 2;
+//	for (int i = 0; i < 13; i++)
+//	{
+//		arr->array[i].value = j;
+//		arr->array[i].suite = "Hearts";
+//		j++;
+//		arr->count++;
+//	}
+//	cout << endl;
+//	j = 2;
+//	for (int i = 13; i < 26; i++)
+//	{
+//		arr->array[i].value = j;
+//		arr->array[i].suite = "Diamonds";
+//		j++;
+//		arr->count++;
+//	}
+//	j = 2;
+//	for (int i = 26; i < 39; i++)
+//	{
+//		arr->array[i].value = j;
+//		arr->array[i].suite = "Clubs";
+//		j++;
+//		arr->count++;
+//	}
+//	j = 2;
+//	for (int i = 39; i < 52; i++)
+//	{
+//		arr->array[i].value = j;
+//		arr->array[i].suite = "Spades";
+//		j++;
+//		arr->count++;
+//	}
+//	for (int i = 0; i < arr->count; i++)
+//	{
+//		cout << arr->array[i].value << " of " << arr->array[i].suite << endl;
+//	}
+//}
+
+void fill_Linked_List(linkedList *list)
 {
-	int j = 2;
+	card info;
 	for (int i = 0; i < 13; i++)
 	{
-		arr->array[i].value = j;
-		arr->array[i].suite = "Hearts";
-		j++;
-		arr->count++;
-	}
-	cout << endl;
-	j = 2;
-	for (int i = 13; i < 26; i++)
-	{
-		arr->array[i].value = j;
-		arr->array[i].suite = "Diamonds";
-		j++;
-		arr->count++;
-	}
-	j = 2;
-	for (int i = 26; i < 39; i++)
-	{
-		arr->array[i].value = j;
-		arr->array[i].suite = "Clubs";
-		j++;
-		arr->count++;
-	}
-	j = 2;
-	for (int i = 39; i < 52; i++)
-	{
-		arr->array[i].value = j;
-		arr->array[i].suite = "Spades";
-		j++;
-		arr->count++;
-	}
-	for (int i = 0; i < arr->count; i++)
-	{
-		cout << arr->array[i].value << " of " << arr->array[i].suite << endl;
+		info.value = i + 1;
+		info.suite = "Hearts";
+		add_last(list, info);
+		info.suite = "Diamonds";
+		add_last(list, info);
+		info.suite = "Clubs";
+		add_last(list, info);
+		info.suite = "Spades";
+		add_last(list, info);
 	}
 }
 
-void remove_item(array_list *list, int index)
-{
-	if (index < 0 || index >= list->count)
-	{
-		cout << "Error!" << endl;
-		return;
-	}
-	for (int i = index; i < list->count - 1; i++)
-		list->array[i] = list->array[i + 1];
-}
+//void remove_item(array_list *list, int index)
+//{
+//	if (index < 0 || index >= list->count)
+//	{
+//		cout << "Error!" << endl;
+//		return;
+//	}
+//	for (int i = index; i < list->count - 1; i++)
+//		list->array[i] = list->array[i + 1];
+//}
 
-void randomlyAllocate(array_list *arr, linkedList *linList)
-{
-	srand((unsigned)time(NULL));
-	int randIndex;
-	while (arr->count > 0)
-	{
-		randIndex = rand() % arr->count;
-		add_last(linList, arr->array[randIndex]);
-		remove_item(arr, randIndex);
-		arr->count--;
-	}
-}
+//void randomlyAllocate(array_list *arr, linkedList *linList)
+//{
+//	srand((unsigned)time(NULL));
+//	int randIndex;
+//	while (arr->count > 0)
+//	{
+//		randIndex = rand() % arr->count;
+//		add_last(linList, arr->array[randIndex]);
+//		remove_item(arr, randIndex);
+//		arr->count--;
+//	}
+//}
 
-void moveToLinkedList(array_list *arr, linkedList *linList)
-{
-	for (int i = 0; i < arr->count; i++)
-	{
-		add_last(linList, arr->array[i]);
-	}
-}
+//void moveToLinkedList(array_list *arr, linkedList *linList)
+//{
+//	for (int i = 0; i < arr->count; i++)
+//	{
+//		add_last(linList, arr->array[i]);
+//	}
+//}
 
 void insertionSort(array_list *arr)
 {
@@ -221,24 +239,80 @@ void insertionSort(array_list *arr)
 
 void viewDeck(linkedList *linList)
 {
-
-	//node *temp = linList->headptr;
-	//array_list *list = create_array_list();
-	//for (int i = 0; i < linList->count; i++)
-	//{
-	//	list->array[i] = temp->data;
-	//	temp = temp->next;
-	//	list->count++;
-	//}
-	//insertionSort(list);
-	//printList(list);
 	printItems(linList);
 }
 
+node getItemSearch(linkedList *list, card search)
+{
+	node *temp = list->headptr;
+	while (temp->next != nullptr)
+	{
+		if (temp->data.value == search.value && temp->data.suite == search.suite)
+			return *temp;
+		else
+			temp = temp->next;
+	}
+}
+
+card getItemRandom(linkedList *list, int num)
+{
+	node *temp = list->headptr;
+	while (num > 1)
+	{
+		temp = temp->next;
+		num--;
+	}
+	--list->count;
+	node *temp2 = temp->next;
+	node *n = temp->next;
+	temp->next = n->next;
+	n = nullptr;
+	delete n;
+	return temp2->data;
+}
+
+void drawCard(linkedList *list, linkedList *_hand)
+{
+	srand((unsigned)time(NULL));
+	int randIndex = rand() % list->count;
+	//if (list->count == 0) //if there are no more cards in deck
+	//{
+	//	fill_Linked_List(list);
+	//	if (_hand->headptr != nullptr) //if the hand contains cards
+	//	{
+	//		node *temp = _hand->headptr;
+	//		while (temp->next != nullptr) //while temp's next isn't the last card in your hand
+	//		{
+	//			if (*temp->next == getItemSearch(list, temp->data)) //if card in hand is found in deck, delete that card in deck
+	//			{
+	//				node *n = temp->next;
+	//				temp->next = n->next;
+	//				delete n;
+	//			}
+	//			else
+	//				temp = temp->next;
+	//		}
+	//	}
+	//}
+	add_last(_hand, getItemRandom(list, randIndex));
+}
 
 void playGame(linkedList *linList)
 {
 	int currentCash = 10;
-	cout << "\nYou currently have $" << currentCash << endl;
+	linkedList *hand = createLinkedList();
+	while (currentCash > 0)
+	{
+		cout << "\nYou have $" << currentCash << endl;
+		cout << "You pay an ante of $1 and now have $" << --currentCash << endl;
+
+		while (hand->count < 5)
+		{
+			drawCard(linList, hand);
+		}
+		printItems(hand);
+		cout << endl << endl;
+		printItems(linList);
+	}
 
 }

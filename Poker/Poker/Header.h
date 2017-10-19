@@ -126,9 +126,28 @@ void printItems(linkedList *list)
 	while (temp != nullptr)
 	{
 		printEntry(temp->data);
-		//cout << temp->data.value << " of " << temp->data.suite << endl;
 		temp = temp->next;
 	}
+}
+
+void printItemsInHand(linkedList *hand)
+{
+	cout << "Your hand contains:\n";
+	node *temp = hand->headptr;
+	cout << "A: ";
+	printEntry(temp->data);
+	temp = temp->next;
+	cout << "B: ";
+	printEntry(temp->data);
+	temp = temp->next;
+	cout << "C: ";
+	printEntry(temp->data);
+	temp = temp->next;
+	cout << "D: ";
+	printEntry(temp->data);
+	temp = temp->next;
+	cout << "E: ";
+	printEntry(temp->data);
 }
 
 //void fillArrayList(array_list *arr) //fills the array list 
@@ -177,7 +196,7 @@ void fill_Linked_List(linkedList *list)
 	card info;
 	for (int i = 0; i < 13; i++)
 	{
-		info.value = i + 1;
+		info.value = i + 2;
 		info.suite = "Hearts";
 		add_last(list, info);
 		info.suite = "Diamonds";
@@ -254,6 +273,11 @@ node getItemSearch(linkedList *list, card search)
 	}
 }
 
+//node getItemFromIndex(linkedList *list, int index)
+//{
+//
+//}
+
 card getItemRandom(linkedList *list, int num)
 {
 	node *temp = list->headptr;
@@ -297,6 +321,46 @@ void drawCard(linkedList *list, linkedList *_hand)
 	add_last(_hand, getItemRandom(list, randIndex));
 }
 
+void discardFromHand(linkedList *_hand, linkedList *list, bool arr[5]) //discards cards from hand and draws new ones
+{
+	int removeCounter = 0;
+	int index = 0;
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (arr[i] == false)
+		{
+			if (removeCounter == i) //if removecounter = the number being checked, the number being checked is the new first
+			{
+				node *temp = _hand->headptr;
+				_hand->headptr = temp->next;
+				temp = nullptr;
+				delete temp;
+				removeCounter++;
+			}
+			else //the number being checked isn't first
+			{
+				index = i;
+				node *temp = _hand->headptr;
+				while (index > 1)
+				{
+					temp = temp->next;
+					--index;
+				}
+				node *n = temp->next;
+				temp->next = n->next;
+				n = nullptr;
+				delete n;
+				removeCounter++;
+			}
+		}
+	}
+	for (int i = 0; i < removeCounter; i++)
+	{
+		drawCard(list, _hand);
+	}
+}
+
 void playGame(linkedList *linList)
 {
 	int currentCash = 10;
@@ -310,9 +374,90 @@ void playGame(linkedList *linList)
 		{
 			drawCard(linList, hand);
 		}
-		printItems(hand);
-		cout << endl << endl;
-		printItems(linList);
+		printItemsInHand(hand);
+		cout << "\nThe deck contains " << linList->count << " cards in it.\n";
+		cout << "\nOPTIONS...\n- Type the letters for the cards you wish to keep. (i.e., \"acd\")" <<
+			"\n- Type \"deck\" to view the cards remaining in the deck." <<
+			"\n- Type \"none\" to discard all cards in your hand." <<
+			"\n- Type \"all\" to keep all cards in your hand." <<
+			"\n- Type \"exit\" to exit the game." <<
+			"\n- Type \"swap\" to CHEAT and swap a card in your hand with one in the deck.\n\n" <<
+			"YOUR CHOICE: ";
+
+		string input;
+		bool isValid = false;
+		bool validCards[5] = { false };
+		while (!isValid) //while the entry isn't valid, keep looping
+		{
+			isValid = true;
+			cin >> input;
+			if (input == "deck")
+			{
+				printItems(linList);
+			}
+			else if (input == "none")
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					validCards[i] = false;
+				}
+				discardFromHand(hand, linList, validCards);
+			}
+			else if (input == "all")
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					validCards[i] = true;
+				}
+				discardFromHand(hand, linList, validCards);
+
+			}
+			else if (input == "exit")
+			{
+				return;
+			}
+			else if (input == "swap")
+			{
+
+			}
+			else
+			{
+				if (input.size() > 5) //if input is greater than 5 characters
+				{
+					cout << "Invalid input: try again\n";
+					isValid = false;
+				}
+				for (int i = 0; i < input.size(); i++) //makes input lowercase
+				{
+					input[i] = tolower(input[i]);
+					if (input[i] < 'a' || input[i] > 'e') //if a character is out of abcde range, make error
+					{
+						cout << "Invalid input: try again\n";
+						isValid = false;
+						break;
+					}
+				}
+				if (isValid) //the input is completely valid
+				{
+					for (int i = 0; i < input.size(); i++) //calculates what cards to discard
+					{
+						if (input[i] == 'a')
+							validCards[0] = true;
+						if (input[i] == 'b')
+							validCards[1] = true;
+						if (input[i] == 'c')
+							validCards[2] = true;
+						if (input[i] == 'd')
+							validCards[3] = true;
+						if (input[i] == 'e')
+							validCards[4] = true;
+					}
+
+				}
+
+			}
+		}
+		printItemsInHand(hand);
 	}
 
 }

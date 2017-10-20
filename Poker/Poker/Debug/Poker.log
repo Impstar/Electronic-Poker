@@ -1,6 +1,7 @@
 ﻿  main.cpp
 c:\users\admin\documents\github\game-230-poker\poker\poker\main.cpp(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(430): warning C4018: '<': signed/unsigned mismatch
-c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(442): warning C4018: '<': signed/unsigned mismatch
-c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(274): warning C4715: 'getItemSearch': not all control paths return a value
-LINK : fatal error LNK1201: error writing to program database 'C:\Users\admin\Documents\GitHub\game-230-poker\Poker\Debug\Poker.pdb'; check for insufficient disk space, invalid path, or insufficient privilege
+c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(393): warning C4553: '==': operator has no effect; did you intend '='?
+c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(649): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(661): warning C4018: '<': signed/unsigned mismatch
+  Poker.vcxproj -> C:\Users\admin\Documents\GitHub\game-230-poker\Poker\Debug\Poker.exe
+  Poker.vcxproj -> C:\Users\admin\Documents\GitHub\game-230-poker\Poker\Debug\Poker.pdb (Partial PDB)

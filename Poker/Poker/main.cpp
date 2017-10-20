@@ -10,7 +10,7 @@ int main()
 	linkedList *linkList = createLinkedList();
 	fill_Linked_List(linkList);
 	cout << endl << endl << "List of items in linked list:\n";
-	printItems(linkList);
+	//printItems(linkList);
 	cout << endl << endl << "List of items in deck: \n";
 	viewDeck(linkList);
 	playGame(linkList);

@@ -1,6 +1,18 @@
 #pragma once
 #include<iostream>
 #include<string>
+#define _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC_NEW
+#include <cstdlib>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
+#endif
+
+
 #include<ctime>
 #include <cstdlib>
 #include <algorithm>
@@ -255,10 +267,18 @@ node* getItemSearch(linkedList *list, card search)
 	return nullptr;
 }
 
-//node getItemFromIndex(linkedList *list, int index)
-//{
-//
-//}
+node* getItemToDelete(linkedList *list, card search)
+{
+	node *temp = list->headptr;
+	while (temp->next != nullptr)
+	{
+		if (temp->next->data.value == search.value && temp->next->data.suite == search.suite)
+			return temp;
+		else
+			temp = temp->next;
+	}
+	return nullptr;
+}
 
 node* get_item(linkedList* list, int index)
 {
@@ -281,20 +301,30 @@ card getItemRandom(linkedList *list, int num)
 		num--;
 	}
 	--list->count;
-	node *temp2 = temp->next;
-	node *n = temp->next;
-	temp->next = n->next;
-	n = nullptr;
-	delete n;
-	return temp2->data;
+	if (temp->next != nullptr)
+	{
+		node *temp2 = temp->next;
+		node *n = temp->next;
+		temp->next = n->next;
+		n = nullptr;
+		delete n;
+		return temp2->data;
+	}
+	else
+	{
+		card finalCard = temp->data;
+		delete temp;
+		temp = nullptr;
+		return finalCard;
+	}
 }
 
 void drawCard(linkedList *list, linkedList *_hand)
 {
 	srand((unsigned)time(NULL));
-	int randIndex = rand() % list->count;
 	if (list->count == 0) //if there are no more cards in deck
 	{
+		list->headptr = nullptr;
 		fill_Linked_List(list);
 		if (_hand->headptr != nullptr) //if the hand contains cards
 		{
@@ -303,15 +333,17 @@ void drawCard(linkedList *list, linkedList *_hand)
 			{
 				if (temp == getItemSearch(list, temp->data)) //if card in hand is found in deck, delete that card in deck
 				{
-					node *n = getItemSearch(list, temp->data); //PROBLEM: I need the node before n somehow so I can delete n
+					node *n = getItemToDelete(list, temp->data); //PROBLEM: I need the node before n somehow so I can delete n
 					temp = n->next;
-					delete n;
+					n->next = temp->next;
+					delete temp;
 				}
 				else
 					temp = temp->next;
 			}
 		}
 	}
+	int randIndex = rand() % list->count;
 	add_last(_hand, getItemRandom(list, randIndex));
 }
 
@@ -381,7 +413,8 @@ int checkHand(linkedList *_hand)
 	{
 		counter++;
 	}
-	if (counter >= 5)
+
+	if (counter >= 4)
 		straight = true;
 
 	counter = 0;
@@ -389,8 +422,9 @@ int checkHand(linkedList *_hand)
 	{
 		counter++;
 	}
-	if (counter >= 5)
-		flush == true;
+
+	if (counter >= 4)
+		flush = true;
 	
 	if (arr[0].value == 10) //is royal straight flush?
 		if (arr[1].value == Jack)
@@ -406,7 +440,7 @@ int checkHand(linkedList *_hand)
 		if (arr[i].value == arr[i + 1].value)
 		{
 			int j = i;
-			while (arr[j].value = arr[j + 1].value)
+			while (arr[j].value == arr[j + 1].value)
 			{
 				counter++;
 				j++;
@@ -555,6 +589,11 @@ void swapper(linkedList *hand, linkedList *deck)
 		swapee.suite = "Hearts";
 	else if (input == 's')
 		swapee.suite = "Spades";
+	if (getItemSearch(deck, swapee) == nullptr)
+	{
+		cout << "\nCard does not exist in deck.  Please choose valid card.\n";
+		return;
+	}
 	temp2 = getItemSearch(deck, swapee);
 	node *temp3 = new node; //temp node
 	temp3->data = temp->data;
@@ -612,7 +651,10 @@ void playGame(linkedList *linList)
 				cin >> input;
 				if (input == "deck")
 				{
-					printItems(linList);
+					if (linList->count != 0)
+						printItems(linList);
+					else
+						cout << "\nNo cards left in deck.";
 				}
 				else if (input == "none")
 				{
@@ -700,5 +742,6 @@ void playGame(linkedList *linList)
 			cout << "\n-------------------------------------\n\n";
 		}
 	}
-
+	cout << "\nGAME OVER!!!";
+	return;
 }

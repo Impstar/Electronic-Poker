@@ -1,6 +1,6 @@
 ﻿  main.cpp
 c:\users\admin\documents\github\game-230-poker\poker\poker\main.cpp(14): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(704): warning C4018: '<': signed/unsigned mismatch
-c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(716): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(707): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\github\game-230-poker\poker\poker\header.h(719): warning C4018: '<': signed/unsigned mismatch
   Poker.vcxproj -> C:\Users\admin\Documents\GitHub\game-230-poker\Poker\Debug\Poker.exe
   Poker.vcxproj -> C:\Users\admin\Documents\GitHub\game-230-poker\Poker\Debug\Poker.pdb (Partial PDB)

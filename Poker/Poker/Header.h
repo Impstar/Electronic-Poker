@@ -399,6 +399,7 @@ int checkHand(linkedList *_hand)
 	bool twoPair = false;
 	bool three = false;
 	bool four = false;
+	bool isJackOrHigher = false;
 	int counter = 0;
 	while (temp != nullptr) //adds hand to card array
 	{
@@ -444,6 +445,8 @@ int checkHand(linkedList *_hand)
 			{
 				counter++;
 				j++;
+				if (arr[j].value > 10)
+					isJackOrHigher = true;
 			}
 			counterArr[i] = counter;
 			i += counter - 1;
@@ -523,7 +526,7 @@ int checkHand(linkedList *_hand)
 		return 2;
 	}
 
-	if (pair == true)
+	if (pair == true && isJackOrHigher == true)
 	{
 		cout << "\nYou got two of a kind.  Yeee... I guess you get $1.";
 		return 1;

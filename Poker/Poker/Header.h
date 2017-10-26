@@ -1,4 +1,3 @@
-#pragma once
 #include<iostream>
 #include<string>
 #define _CRTDBG_MAP_ALLOC
@@ -12,7 +11,7 @@
 #endif
 #endif
 
-
+#pragma once
 #include<ctime>
 #include <cstdlib>
 #include <algorithm>
@@ -48,13 +47,11 @@ struct node
 {
 	card data;
 	node *next;
-	node *prev;
 };
 
 struct linkedList
 {
 	node *headptr;
-	node *tailptr;
 	int count = 0;
 };
 
@@ -62,7 +59,6 @@ linkedList *createLinkedList()
 {
 	linkedList *list = new linkedList;
 	list->headptr = nullptr;
-	list->tailptr = nullptr;
 	return list;
 }
 
@@ -78,13 +74,9 @@ void add_first(linkedList *list, card info)
 {
 	node *temp = new node;
 	temp->data = info;
-	temp->next = list->headptr;
+	temp->next = nullptr;
 	list->headptr = temp;
 	list->count++;
-	if (list->headptr->next == nullptr)
-	{
-		list->tailptr = list->headptr;
-	}
 }
 
 void add_last(linkedList *list, card info)
@@ -103,10 +95,6 @@ void add_last(linkedList *list, card info)
 	temp2->data = info;
 	temp->next = temp2;
 	temp2->next = nullptr;
-	//node *temp = new node;
-	//temp->data = info;
-	//temp->prev = list->tailptr;
-	//list->tailptr = temp;
 }
 
 
@@ -303,19 +291,17 @@ card getItemRandom(linkedList *list, int num)
 	--list->count;
 	if (temp->next != nullptr)
 	{
-		node *temp2 = temp->next;
 		node *n = temp->next;
 		temp->next = n->next;
-		n = nullptr;
+		card info = n->data;
 		delete n;
-		return temp2->data;
+		n = nullptr;
+		return info;
 	}
 	else
 	{
-		card finalCard = temp->data;
-		delete temp;
-		temp = nullptr;
-		return finalCard;
+		cout << "\nERROR: QUITTING";
+		exit(1);
 	}
 }
 
@@ -329,14 +315,15 @@ void drawCard(linkedList *list, linkedList *_hand)
 		if (_hand->headptr != nullptr) //if the hand contains cards
 		{
 			node *temp = _hand->headptr;
-			while (temp != nullptr) //while temp's next isn't the last card in your hand
+			while (temp != nullptr) //while temp is still a card in hand
 			{
 				if (temp == getItemSearch(list, temp->data)) //if card in hand is found in deck, delete that card in deck
 				{
-					node *n = getItemToDelete(list, temp->data); //PROBLEM: I need the node before n somehow so I can delete n
+					node *n = getItemToDelete(list, temp->data); 
+					node *temp2 = n->next;
+					n->next = temp2->next;
+					delete temp2;
 					temp = n->next;
-					n->next = temp->next;
-					delete temp;
 				}
 				else
 					temp = temp->next;
@@ -360,8 +347,8 @@ void discardFromHand(linkedList *_hand, linkedList *list, bool arr[5]) //discard
 			{
 				node *temp = _hand->headptr;
 				_hand->headptr = temp->next;
-				temp = nullptr;
 				delete temp;
+				temp = nullptr;
 				removeCounter++;
 			}
 			else //the number being checked isn't first
@@ -375,8 +362,8 @@ void discardFromHand(linkedList *_hand, linkedList *list, bool arr[5]) //discard
 				}
 				node *n = temp->next;
 				temp->next = n->next;
-				n = nullptr;
 				delete n;
+				n = nullptr;
 				removeCounter++;
 			}
 		}
@@ -602,6 +589,7 @@ void swapper(linkedList *hand, linkedList *deck)
 	temp3->data = temp->data;
 	temp->data = temp2->data;
 	temp2->data = temp3->data;
+	delete temp3;
 
 }
 
@@ -610,22 +598,24 @@ void playGame(linkedList *linList)
 	int currentCash = 10;
 	bool sameRound = true;
 	linkedList *hand = createLinkedList();
+
 	while (currentCash > 0)
 	{
 		cout << "\nYou have $" << currentCash << endl;
 		cout << "You pay an ante of $1 and now have $" << --currentCash << endl;
 
 		//discards current hand for next
-		node *n = new node;
-		node *temp = new node;
+		node *n;
+		node *temp;
 		n = hand->headptr;
+
 		while (n != nullptr)
 		{
 			temp = n->next;
-			n = nullptr;
 			delete n;
 			n = temp;
 		}
+
 		hand->headptr = nullptr;
 		hand->count = 0;
 		while (hand->count < 5)
@@ -691,6 +681,28 @@ void playGame(linkedList *linList)
 				}
 				else if (input == "exit")
 				{
+					node *n;
+					node *temp;
+					n = linList->headptr; //deallocates deck
+					while (n != nullptr)
+					{
+						temp = n->next;
+						delete n;
+						n = temp;
+					}
+
+					n = hand->headptr; //deallocates hand
+					while (n != nullptr)
+					{
+						temp = n->next;
+						delete n;
+						n = temp;
+					}
+					temp = nullptr;
+					n = nullptr;
+
+					delete hand;
+
 					return;
 				}
 				else if (input == "swap")
@@ -746,5 +758,27 @@ void playGame(linkedList *linList)
 		}
 	}
 	cout << "\nGAME OVER!!!";
+
+	node *n;
+	node *temp;
+	n = linList->headptr; //deallocate deck
+	while (n != nullptr)
+	{
+		temp = n->next;
+		delete n;
+		n = temp;
+	}
+
+	n = hand->headptr;
+	while (n != nullptr) //deallocates hand
+	{
+		temp = n->next;
+		delete n;
+		n = temp;
+	}
+	temp = nullptr;
+	n = nullptr;
+	delete hand;
+
 	return;
 }

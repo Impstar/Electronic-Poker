@@ -26,7 +26,7 @@ int main()
 	fill_Linked_List(linkList);
 	playGame(linkList);
 
-
+	delete linkList;
 
 	return 0;
 }

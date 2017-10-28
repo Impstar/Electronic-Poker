@@ -300,8 +300,12 @@ card getItemRandom(linkedList *list, int num)
 	}
 	else
 	{
-		cout << "\nERROR: QUITTING";
-		exit(1);
+		card info = temp->data;
+		delete temp;
+		temp = nullptr;
+		list->headptr = nullptr;
+		return info;
+		//list->headptr = temp;
 	}
 }
 

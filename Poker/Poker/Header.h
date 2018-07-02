@@ -18,8 +18,7 @@
 
 using namespace std;
 
-//srand((unsigned)time(NULL));
-
+//each card has a value and suite
 struct card
 {
 	int value;
@@ -43,6 +42,7 @@ array_list* create_array_list()
 	return list;
 }
 
+//the nodes that compromise the deck and hand
 struct node
 {
 	card data;
@@ -70,6 +70,7 @@ enum Royals
 	Ace = 14
 };
 
+//adds to the beginning of a linked list
 void add_first(linkedList *list, card info)
 {
 	node *temp = new node;
@@ -79,6 +80,7 @@ void add_first(linkedList *list, card info)
 	list->count++;
 }
 
+//adds to the end of a linked list
 void add_last(linkedList *list, card info)
 {
 	if (list->headptr == nullptr)
@@ -97,7 +99,7 @@ void add_last(linkedList *list, card info)
 	temp2->next = nullptr;
 }
 
-
+//prints a card
 void printEntry(card arr)
 {
 	if (arr.value == 11)
@@ -113,6 +115,7 @@ void printEntry(card arr)
 	cout << " of " << arr.suite << endl;
 }
 
+//prints out a card that the player kept in their hand
 void printKeptEntry(card arr)
 {
 	if (arr.value == 11)
@@ -128,6 +131,7 @@ void printKeptEntry(card arr)
 	cout << " of " << arr.suite << " (kept) " << endl;
 }
 
+//prints out a list of cards
 void printList(array_list *arr)
 {
 	for (int i = 0; i < arr->count; i++)
@@ -202,6 +206,7 @@ void printKeptHand(linkedList *hand, int kept)
 	temp = temp->next;
 }
 
+//refills the deck with cards
 void fill_Linked_List(linkedList *list)
 {
 	card info;
@@ -255,6 +260,7 @@ node* getItemSearch(linkedList *list, card search)
 	return nullptr;
 }
 
+//deletes drawn card from deck
 node* getItemToDelete(linkedList *list, card search)
 {
 	node *temp = list->headptr;
@@ -279,7 +285,7 @@ node* get_item(linkedList* list, int index)
 	return n;
 }
 
-
+//randomly draws a card
 card getItemRandom(linkedList *list, int num)
 {
 	node *temp = list->headptr;
@@ -378,19 +384,14 @@ void discardFromHand(linkedList *_hand, linkedList *list, bool arr[5]) //discard
 	}
 }
 
+//checks hand for points
 int checkHand(linkedList *_hand)
 {
 	node *temp = _hand->headptr;
 	card arr[5] = { 0 };
 	int i = 0;
-	bool straight = false;
-	bool royal = false;
-	bool flush = false;
-	bool pair = false;
-	bool twoPair = false;
-	bool three = false;
-	bool four = false;
-	bool isJackOrHigher = false;
+	bool straight, royal, flush, pair, twoPair, three, four, isJackOrHigher = false;
+
 	int counter = 0;
 	while (temp != nullptr) //adds hand to card array
 	{
@@ -527,6 +528,7 @@ int checkHand(linkedList *_hand)
 
 }
 
+//allows player to swap cards in hand; purely used for testing purposes, is considered cheating
 void swapper(linkedList *hand, linkedList *deck)
 {
 	char input;
